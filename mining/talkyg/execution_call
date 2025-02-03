@@ -1,0 +1,5 @@
+./TalkyG_mminsup /home/julia/inclose_implementations/datasets/adult_asc_train /home/julia/inclose_implementations/run_adult/minrows_adult01_mg adult_asc_trainOutput /home/julia/inclose_implementations/datasets/adult_asc_train_labels 0
+
+./TalkyG_mminsup /home/julia/inclose_implementations/datasets/covtype_asc_train /home/julia/inclose_implementations/run_covtype/minrows_covtype10_mg covtype_asc_train10_mgOutput /home/julia/inclose_implementations/datasets/covtype_asc_train_labels 0
+
+./TalkyG_mminsup /home/julia/inclose_implementations/datasets/covtype_asc_train /home/julia/inclose_implementations/run_covtype/minrows_covtype01_mg covtype_asc_train01_mgOutput /home/julia/inclose_implementations/datasets/covtype_asc_train_labels 0

@@ -1,0 +1,9 @@
+DATASET=exampleDataset
+LABELS=exampleLabels
+THRESHOLDS=exampleThresholds
+SUMMARY=exampleSummary.txt
+DTFRAME=exampleDtframe.txt
+BICFILE=exampleOutput.txt
+CUTOPTION=1
+USEUNAVOIDABLE=0
+ZDC=1

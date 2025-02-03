@@ -1,0 +1,11 @@
+dataset filename = exampleDataset
+class distribution = 5 5 
+minrows = 1 1 
+min col = 1
+min conf = 0 0 
+min zdc = 0.1
+mined = 5
+pass zdc = 4
+pass conf = 5
+pass zdc and conf = 4
+runtime = 0.000454
