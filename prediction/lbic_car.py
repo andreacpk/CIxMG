@@ -177,45 +177,6 @@ def build_CARs(bics, idxSelectedBics, summary, D_train):
     return rules
 
 
-def car_classifier_tests(arg, summary, bicsRowsClass, selecType, param):
-    print('selecting biclusters for the classifier')
-
-    if selecType == 'coverage':
-        idxSelectedBics = lbic_selec.coverageSelection(bicsRowsClass, summary, n_samples=len(arg.dtset.D_train),
-                                                       ranking=arg.rank, minCov=1, delta=param)
-    elif selecType == 'bestkRules':
-        idxSelectedBics = lbic_selec.bestkRulesSelection(summary, param, ranking=arg.rank)
-
-    elif selecType == 'bestkRulesPerLabel':
-        idxSelectedBics = lbic_selec.bestkRulesSelectionPerLabel(summary, param, ranking=arg.rank)
-
-    elif selecType == 'lazyPruneL3':
-        idxSelectedBics, level2, harmful = lbic_selec.lazyPruneL3(arg.dtset.bics, bicsRowsClass, summary,
-                                                                  n_samples=len(arg.dtset.D_train), ranking=arg.rank)
-        idxSelectedBics.extend(level2)
-    elif selecType == 'ACCF':
-        idxSelectedBics = lbic_selec.ACCFSelection(summary, ranking=(["Confidence", "rsupXY", "sizeCols"], (False, False, True)))
-    else:
-        raise Exception('Invalid Selection Type')
-
-    print('building rules')
-    rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
-    pred = lbic_pred.predictors(rules, arg.dtset.D_test, arg.dtset.labels_test, arg.default_label, summary)
-
-    f = open(arg.sql_fn, "a")
-    for p in pred:
-        insert1 = arg.createInsertInit + "n_rules, selection, mincov, param, predictor, acc, bacc, f1_score, " \
-                                         "not_matched "
-        insert2 = arg.createInsertFinal + str(len(rules)) + ", " + selecType+", " + str(1) + ", " + str(param) + ", "
-        insert2 += "'" + p.name + "', " + str(p.acc) + ", " + str(p.bacc) + ", " + str(p.f1) + ", " + str(
-            p.nnm) + ");\n"
-        # f.write(insert1 + insert2)
-
-    f.close()
-
-    return Classifier(rules, selecType, param, pred)
-
-
 def car_Coverage(arg, summary, bicsRowsClass, param):
 
     print('Coverage')
