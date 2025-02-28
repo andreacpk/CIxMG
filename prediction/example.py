@@ -25,14 +25,5 @@ print('runtime evaluating = ', end_timeE)
 print('n bics: ', len(summary))
 classCov = lbic_car.getClassCoverage(arg.dtset.labels_train, bicsRowsClass)
 
-#lbic_car.car_ACCF(arg, summary)
-lbic_car.car_CBA(arg, summary, bicsRowsClass, 1)
-lbic_car.car_LazyCBA(arg, summary, bicsRowsClass)
-
-#   tests
-#selections = [('coverage', 1), ('coverage', 3), ('bestkRules', 100), ('bestkRulesPerLabel', 50), ('lazyPruneL3', 1)]
-#selections = [('coverage', 1), ('lazyPruneL3', 1)]
-#for selecT, param in selections:
-#    classifierCAR = lbic_car.car_classifier_tests(arg, summary, bicsRowsClass, selecT, param)
-#    for pred in classifierCAR.preds:
-#        pred.printmeasures()
+lbic_car.car_Coverage(arg, summary, bicsRowsClass, 1)
+lbic_car.car_Lazy(arg, summary, bicsRowsClass)
