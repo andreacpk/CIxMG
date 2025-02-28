@@ -215,30 +215,10 @@ def car_classifier_tests(arg, summary, bicsRowsClass, selecType, param):
 
     return Classifier(rules, selecType, param, pred)
 
-def car_ACCF(arg, summary, ranking=(["Confidence", "rsupXY", "sizeCols"], (False, False, True))):
 
-    print('ACCF')
-    start_time = time.time()
-    idxSelectedBics = lbic_selec.ACCFSelection(summary, ranking)
-    print('# selected = ', len(idxSelectedBics))
-    print('building rules')
-    rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
-    print('n rules: ', len(rules))
+def car_Coverage(arg, summary, bicsRowsClass, param):
 
-    filename = 'rules_accf' + arg.k + '.txt'
-    lbic_utils.printRules(rules, filename)
-
-    print('classifying')
-    pred_labels, nnm, used_rules = lbic_pred.decisionListPredictorACCF(rules, arg.dtset.D_test, arg.default_label)
-    lbic_utils.printUsedRules(rules, used_rules, 'used_' + filename)
-    print('ACCF runtime = ', time.time() - start_time)
-    pred = lbic_pred.Predictor('decisionListPredictorACCF', arg.dtset.labels_test, pred_labels, nnm)
-    pred.printmeasures()
-
-
-def car_CBA(arg, summary, bicsRowsClass, param):
-
-    print('CBA')
+    print('Coverage')
     start_time = time.time()
     idxSelectedBics = lbic_selec.coverageSelection(bicsRowsClass, summary, n_samples=len(arg.dtset.D_train),
                                                        ranking=arg.rank, minCov=1, delta=param)
@@ -246,19 +226,16 @@ def car_CBA(arg, summary, bicsRowsClass, param):
     print('building rules')
     rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
 
-    filename = 'rules_cba' + arg.k + '.txt'
-    lbic_utils.printRules(rules, filename)
-
     print('classifying')
     pred_labels, nnm, used_rules = lbic_pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
     lbic_utils.printUsedRules(rules, used_rules, 'used_' + filename)
-    print('CBA runtime = ', time.time() - start_time)
+    print('Coverage runtime = ', time.time() - start_time)
     pred = lbic_pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
     pred.printmeasures()
 
-def car_LazyCBA(arg, summary, bicsRowsClass):
+def car_Lazy(arg, summary, bicsRowsClass):
 
-    print('CBA with lazy selection')
+    print('Lazy selection')
     start_time = time.time()
     idxSelectedBics, level2, harmful = lbic_selec.lazyPruneL3(arg.dtset.bics, bicsRowsClass, summary,
                                                                   n_samples=len(arg.dtset.D_train), ranking=arg.rank)
@@ -267,12 +244,9 @@ def car_LazyCBA(arg, summary, bicsRowsClass):
     print('building rules')
     rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
 
-    filename = 'rules_lazy' + arg.k + '.txt'
-    lbic_utils.printRules(rules, filename)
-
     print('classifying')
     pred_labels, nnm, used_rules = lbic_pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
     lbic_utils.printUsedRules(rules, used_rules, 'used_' + filename)
-    print('LazyCBA runtime = ', time.time() - start_time)
+    print('Lazy runtime = ', time.time() - start_time)
     pred = lbic_pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
     pred.printmeasures()
