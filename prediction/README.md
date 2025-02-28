@@ -18,4 +18,4 @@ The input_param file need to follow specific order of information per line:
  - columns name for ranking
  - bool for each column name indicating the ascending order or not
 
-For now, the separator of the datasets needs to be set in the example.py file.
+The separator of the datasets needs to be set in the example.py file.
