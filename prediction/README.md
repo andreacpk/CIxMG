@@ -19,6 +19,3 @@ The input_param file need to follow specific order of information per line:
  - bool for each column name indicating the ascending order or not
 
 For now, the separator of the datasets needs to be set in the example.py file.
-Also, there are 4 types of Selection and 4 types of Predictor that should be comment or not in the example.py file.
-
-Work in Progress...
