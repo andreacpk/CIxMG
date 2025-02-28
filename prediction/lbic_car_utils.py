@@ -75,31 +75,11 @@ class Arguments:
         return ") values ( '" + self.bics_fn + "', " + str(len(self.dtset.bics)) + ", " + str(self.default_label) \
                       + ", '" + str(self.rank) + "', "
 
-
 def readBicOutput(filename):
     bics = []
     with open(filename) as bicfile:
         for line in bicfile:
             exec(line)
-    return bics
-
-
-def readBicOutput2(filename):
-    bics = []
-    bic = []
-    count = 0
-    with open(filename) as bicfile:
-        for line in bicfile:
-            aux = [int(i) for i in line.rstrip(' \n').split(' ')]
-
-            if count % 2 == 0:
-                bic = []
-                bic.append(aux)
-            else:
-                bic.append(aux)
-                bics.append(bic)
-            count += 1
-
     return bics
 
 
