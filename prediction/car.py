@@ -9,10 +9,10 @@ import math
 
 import time
 import pandas as pd
-import lbic_car_pred as lbic_pred
-import lbic_car_select as lbic_selec
-import lbic_car_utils as lbic_utils
-from lbic_car_metrics import *
+import car_pred as pred
+import car_select as selec
+import car_utils as utils
+from car_metrics import *
 
 
 class Classifier:
@@ -181,24 +181,24 @@ def car_Coverage(arg, summary, bicsRowsClass, param):
 
     print('Coverage')
     start_time = time.time()
-    idxSelectedBics = lbic_selec.coverageSelection(bicsRowsClass, summary, n_samples=len(arg.dtset.D_train),
+    idxSelectedBics = selec.coverageSelection(bicsRowsClass, summary, n_samples=len(arg.dtset.D_train),
                                                        ranking=arg.rank, minCov=1, delta=param)
     print('# selected = ', len(idxSelectedBics))
     print('building rules')
     rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
 
     print('classifying')
-    pred_labels, nnm, used_rules = lbic_pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
-    lbic_utils.printUsedRules(rules, used_rules, 'used_' + filename)
+    pred_labels, nnm, used_rules = pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
+    utils.printUsedRules(rules, used_rules, 'used_' + filename)
     print('Coverage runtime = ', time.time() - start_time)
-    pred = lbic_pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
+    pred = pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
     pred.printmeasures()
 
 def car_Lazy(arg, summary, bicsRowsClass):
 
     print('Lazy selection')
     start_time = time.time()
-    idxSelectedBics, level2, harmful = lbic_selec.lazyPruneL3(arg.dtset.bics, bicsRowsClass, summary,
+    idxSelectedBics, level2, harmful = selec.lazyPruneL3(arg.dtset.bics, bicsRowsClass, summary,
                                                                   n_samples=len(arg.dtset.D_train), ranking=arg.rank)
     idxSelectedBics.extend(level2)
     print('# selected = ', len(idxSelectedBics))
@@ -206,8 +206,8 @@ def car_Lazy(arg, summary, bicsRowsClass):
     rules = build_CARs(arg.dtset.bics, idxSelectedBics, summary, arg.dtset.D_train)
 
     print('classifying')
-    pred_labels, nnm, used_rules = lbic_pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
-    lbic_utils.printUsedRules(rules, used_rules, 'used_' + filename)
+    pred_labels, nnm, used_rules = pred.decisionListPredictor(rules, arg.dtset.D_test, arg.default_label)
+    utils.printUsedRules(rules, used_rules, 'used_' + filename)
     print('Lazy runtime = ', time.time() - start_time)
-    pred = lbic_pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
+    pred = pred.Predictor('decisionListPredictor', arg.dtset.labels_test, pred_labels, nnm)
     pred.printmeasures()
