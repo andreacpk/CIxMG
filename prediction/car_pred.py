@@ -9,7 +9,7 @@ Created on Fri Mar  5 15:59:46 2021
 from sklearn.metrics import accuracy_score
 from sklearn.metrics import balanced_accuracy_score
 from sklearn.metrics import f1_score
-from lbic_car_metrics import *
+from car_metrics import *
 from collections import Counter
 
 
